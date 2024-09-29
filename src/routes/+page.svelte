@@ -145,6 +145,8 @@
         position: relative;
         overflow: hidden;
         transition: scale 200ms;
+
+        opacity: 0;
     }
 
     .general-features > div > p:first-of-type {
