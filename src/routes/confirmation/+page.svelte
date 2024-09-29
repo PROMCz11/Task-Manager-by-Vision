@@ -54,7 +54,7 @@
 
                         deleteTokenFromCookies("verifyUserToken");
             
-                        window.location.href = "app.html";
+                        window.location.href = "app";
                     }
                     else {
                         alert(json.message);

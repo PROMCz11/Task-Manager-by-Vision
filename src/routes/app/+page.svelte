@@ -242,7 +242,7 @@
                 else {
                     // handleStatusReport("Please log in", false);
                     setTimeout(() => {
-                        window.location.href = "log-in.html";
+                        window.location.href = "login";
                     }, 2000);
                     console.log(err)
                 }
@@ -632,7 +632,7 @@
 
         const logOut = () => {
             deleteTokenFromCookies("authToken");
-            window.location.href = "log-in.html";
+            window.location.href = "login";
         }
 
         const deleteTokenFromCookies = (name) => {
@@ -1259,7 +1259,7 @@
 
         const logoContainer = document.getElementById("logo-container");
 
-        logoContainer.addEventListener("click", () => {window.location.href = "index.html"});
+        logoContainer.addEventListener("click", () => {window.location.href = "/"});
 
         const isMobilePlatform = () => {
             let check = false;
@@ -1389,7 +1389,7 @@
         <!-- to be deleted -->
         <div style="position: fixed; bottom: 1rem; right: 1rem; z-index: 10; color: #333333;" id="testing-info">
             <p style="font-size: .8rem;" id="testing-info__userID"></p>
-            <p>1.11.25</p>
+            <p>1.12.27</p>
         </div>
         <!-- to be deleted -->
     

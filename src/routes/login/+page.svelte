@@ -88,7 +88,7 @@
                 if(json.status) {
                     const authToken = json.data.authToken;
                     insertAuthTokenIntoCookies(authToken);
-                    window.location.href = "app.html";
+                    window.location.href = "app";
                 }
                 else {
                     // alert("Email or Password is incorrect");
