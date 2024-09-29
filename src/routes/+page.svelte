@@ -1,17 +1,32 @@
 <script>
-    import { animate, scroll } from "motion";
+    import { animate, scroll, inView } from "motion";
 	import { onMount } from "svelte";
 
     onMount(() => {
-        scroll(
-            animate(".hero p", {opacity: [1, 0], scale: [1, 1.5], display: ["block", "none"]}),
-            {target: document.querySelector(".hero"), offset: ["start start", "end end"]}
-        )
+        document.querySelector(".loading-screen").classList.add("hide");
 
-        scroll(
-            animate(".box-grid", {gap: ["1rem", "5rem"], opacity: [1, 0], display: ["grid", "none"]}),
-            {target: document.querySelector(".hero"), offset: ["start start", "end end"]}
-        )
+        animate(".box-grid", {gap: ["10rem", "1rem"], opacity: [0, 1]}, {duration: 1});
+        animate(".hero p", {opacity: [0, 1], scale: [1.5, 1]}, {duration: 1});
+
+        // scroll(
+        //     animate(".hero p", {opacity: [1, 0], scale: [1, 1.5], display: ["block", "none"]}),
+        //     {target: document.querySelector(".hero"), offset: ["start start", "end end"]}
+        // )
+
+        // scroll(
+        //     animate(".box-grid", {gap: ["1rem", "5rem"], opacity: [1, 0], display: ["grid", "none"]}),
+        //     {target: document.querySelector(".hero"), offset: ["start start", "end end"]}
+        // )
+
+        inView(".features-section", () => {
+            animate(".box-grid", {gap: ["1rem", "5rem"], opacity: [1, 0], display: ["grid", "none"]}, {duration: 1});
+            animate(".hero p", {opacity: [1, 0], scale: [1, 1.5], display: ["block", "none"]}, {duration: 1});
+
+            return () => {
+                animate(".box-grid", {gap: ["5rem", "1rem"], opacity: [0, 1], display: ["none", "grid"]}, {duration: 1});
+                animate(".hero p", {opacity: [0, 1], scale: [1.5, 1], display: ["none", "block"]}, {duration: 1});
+            }
+        })
     })
 </script>
 
@@ -67,9 +82,27 @@
             <p>feature</p>
         </div>
     </div>
+
+    <div class="loading-screen">
+        Loading...
+    </div>
 </div>
 
 <style>
+    .loading-screen {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        background-color: black;
+    }
+
+    .hide {
+        display: none;
+    }
+
     .features-section {
         display: flex;
         justify-content: center;
@@ -118,7 +151,7 @@
     .box-grid {
         display: grid;
         grid-template-columns: repeat(8, 1fr);
-        gap: 1rem;
+        gap: 10rem;
         position: fixed;
         top: 50%;
         left: 50%;
