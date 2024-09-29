@@ -16,6 +16,11 @@
 </script>
 
 <div class="body-home">
+    <div style="padding: 1rem;">
+        <p>The home page is currently under development</p>
+        <p>Proceed to the rest of the application:</p>
+        <p><span><a style="color: white;" href="login">Login</a></span> <span><a style="color: white;" href="signup">Signup</a></span></p>
+    </div>
     <div class="hero">
         <p>The <span>Future</span> of Task Management<br>Starts <span>Here</span></p>
         <div class="box-grid">
