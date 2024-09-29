@@ -1,27 +1,128 @@
-<div>
-    <!-- To be deleted -->
-    <section style="position: absolute; top: 50%; left: 50%; translate: -50% -50%;">
-        <h2>Task Manager testing page</h2>
-        <p style="margin-top: .7rem; margin-bottom: 2rem;">An ongoing project by <span style="color: black; background-color: white; font-weight: 800; font-size: 1.1rem;">Vision</span></p>
-        <p>Please follow one of the links below,</p>
-        <p>Enjoy testing.</p>
-        <p style="color: #757575; margin-top: .5rem;">v 1.12.27</p>
-    </section>
+<script>
+    import { animate, scroll } from "motion";
+	import { onMount } from "svelte";
 
-    <section style="position: absolute; display: flex; flex-direction: column;
-    gap: 1rem; inset: auto 1rem 2rem 1rem;">
-        <a style="color: white;" href="signup">Sign up</a>
-        <a style="color: white;" href="login">Log in</a>
-    </section>
+    onMount(() => {
+        scroll(
+            animate(".hero p", {opacity: [1, 0], scale: [1, 1.5], display: ["block", "none"]}),
+            {target: document.querySelector(".hero"), offset: ["start start", "end end"]}
+        )
+
+        scroll(
+            animate(".box-grid", {gap: ["1rem", "5rem"], opacity: [1, 0], display: ["grid", "none"]}),
+            {target: document.querySelector(".hero"), offset: ["start start", "end end"]}
+        )
+    })
+</script>
+
+<div class="body-home">
+    <div class="hero">
+        <p>The <span>Future</span> of Task Management<br>Starts <span>Here</span></p>
+        <div class="box-grid">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </div>
+    </div>
+    <div class="features-section">
+        <p>Features</p>
+        <div class="features">
+            <p>feature</p>
+            <p>feature</p>
+            <p>feature</p>
+            <p>feature</p>
+        </div>
+    </div>
 </div>
 
 <style>
-    div {
-        color: white;
-        background-color: black;
-        font-family: monospace; 
-        text-align: center;
+    .features-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .body-home {
         min-height: 100vh;
         min-height: 100svh;
+        --clr-accent: #A0153E;
+        font-family: sans-serif;
+    }
+
+    .hero {
+        min-height: 120vh;
+        max-width: 100vw;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .hero span {
+        color: var(--clr-accent);
+    }
+
+    .hero p {
+        width: 100%;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        text-align: center;
+        font-size: 4rem;
+        z-index: 2;
+    }
+
+    .box {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: #1a1a1a;
+    }
+
+    .box-grid {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 1rem;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+    }
+
+    @media (max-width: 1000px) {
+        .hero p {
+            font-size: 2.5rem;
+        }
     }
 </style>
