@@ -80,9 +80,9 @@
 
         const enterOnlineMode = () => {
             enterSyncMode();
-            const addArray = taskArr.filter(task => task._id.includes("-fake-id"));
+            const addArray = taskArr.filter(task => task.taskId.includes("-fake-id"));
             addArray.forEach(task => {
-                delete task.UserId;
+                // delete task.UserId;
                 delete task.__v;
                 delete task.last_updated;
             });
@@ -92,7 +92,7 @@
                 body: JSON.stringify({
                 //   token: getAuthTokenFromCookies(),
                 addArray: addArray,
-                updateArray: updatedWhileOfflineTasksArray.filter(task => !deletedWhileOfflineIDS.includes(task._id) && !task._id.includes("-fake-id")),
+                updateArray: updatedWhileOfflineTasksArray.filter(task => !deletedWhileOfflineIDS.includes(task.taskId) && !task.taskId.includes("-fake-id")),
                 deleteArray: deletedWhileOfflineIDS.filter(taskID => !taskID.includes("-fake-id"))
                 }),
                 headers: {
@@ -115,8 +115,8 @@
 
                         const idPairsArray = json.data.idPairs;
                         idPairsArray.forEach(pair => {
-                            const fakeTaskIndex = taskArr.findIndex(task => task._id === pair.fakeID);
-                            taskArr[fakeTaskIndex]._id = pair.realID;
+                            const fakeTaskIndex = taskArr.findIndex(task => task.taskId === pair.fakeID);
+                            taskArr[fakeTaskIndex].taskId = pair.realID;
                             if(document.getElementById(pair.fakeID)) {
                                 const taskOnTheDOM = document.getElementById(pair.fakeID);
                                 taskOnTheDOM.id = pair.realID;
@@ -190,7 +190,7 @@
             firstNameDisplay.textContent = `${userFirstName}'s Tasks`;
         }
 
-        const getUserIDFromToken = () => parseJwt(getAuthTokenFromCookies()).UserId;
+        // const getUserIDFromToken = () => parseJwt(getAuthTokenFromCookies()).UserId;
 
         const renderTasksBasedOnActiveFilter = () => {
             filters.querySelectorAll("*").forEach(filter => {
@@ -230,8 +230,8 @@
                 }
 
                 // To be deleted
-                const testingUserID = document.getElementById("testing-info__userID");
-                testingUserID.textContent = "ID: " + getUserIDFromToken();
+                // const testingUserID = document.getElementById("testing-info__userID");
+                // testingUserID.textContent = "ID: " + getUserIDFromToken();
                 // To be deleted
 
             }).catch(err => {
@@ -283,7 +283,7 @@
                 acc += `
                     <div class="task-wrapper">
                     <img class="delete-icon" src="${deleteIconSrc}" alt="">
-                        <div title="Last updated: ${getFormattedLocalTime(task.last_updated)}" class="task ${task.completed ? "completed" : ""} ${task.important ? "important" : ""}" id="${task._id}">
+                        <div title="Last updated: ${getFormattedLocalTime(task.last_updated)}" class="task ${task.completed ? "completed" : ""} ${task.important ? "important" : ""}" id="${task.taskId}">
                             <p contenteditable class="task-content">${task.content}</p>
                             <p class="task-date">${getFormattedLocalTime(task.date)}</p>
                             <div class="filter-indicators">
@@ -336,7 +336,7 @@
             let fakeID;
             do {
                 fakeID = Math.floor(100000 + Math.random() * 900000);
-            } while (taskArr.map(task => task._id).includes(fakeID));
+            } while (taskArr.map(task => task.taskId).includes(fakeID));
             return fakeID;
         }
 
@@ -346,7 +346,7 @@
             const taskDate = new Date().getTime();
             const taskImportant = document.querySelector(".important-tasks-filter").classList.contains("active-filter") ? true : false;
             const taskCompleted = document.querySelector(".completed-tasks-filter").classList.contains("active-filter") ? true : false;
-            const userID = getUserIDFromToken();
+            // const userID = getUserIDFromToken();
 
             taskInput.value = "";
 
@@ -369,13 +369,13 @@
                 .then(res => res.json())
                 .then(json => {
                     if(json.status) {
-                        const taskID = json.data.id;
+                        const taskID = json.data.taskId;
                         
                         const addedTask = {
-                            "_id": taskID,
+                            "taskId": taskID,
                             "content": taskContent,
                             "date": taskDate,
-                            "UserId": userID,
+                            // "UserId": userID,
                             "important": taskImportant,
                             "completed": taskCompleted,
                             "__v": 0
@@ -403,10 +403,10 @@
                 const fakeID = generateFakeID() + "-fake-id";
                 
                 const addedTask = {
-                    "_id": fakeID,
+                    "taskId": fakeID,
                     "content": taskContent,
                     "date": taskDate,
-                    "UserId": userID,
+                    // "UserId": userID,
                     "important": taskImportant,
                     "completed": taskCompleted,
                     "__v": 0
@@ -426,7 +426,7 @@
             const newTask = `
                 <div class="task-wrapper">
                     <img class="delete-icon" src="${deleteIconSrc}" alt="">
-                    <div title="Last updated: ${getFormattedLocalTime(new Date().getTime())}" class="task ${document.querySelector(".important-tasks-filter").classList.contains("active-filter") ? "important" : ""} ${document.querySelector(".completed-tasks-filter").classList.contains("active-filter") ? "completed" : ""}" id="${task._id}">
+                    <div title="Last updated: ${getFormattedLocalTime(new Date().getTime())}" class="task ${document.querySelector(".important-tasks-filter").classList.contains("active-filter") ? "important" : ""} ${document.querySelector(".completed-tasks-filter").classList.contains("active-filter") ? "completed" : ""}" id="${task.taskId}">
                         <p contenteditable class="task-content">${task.content}</p>
                         <p class="task-date">${getFormattedLocalTime(task.date)}</p>
                         <div class="filter-indicators">
@@ -471,7 +471,7 @@
                 fadeTaskOut(document.getElementById(taskID));
             }
 
-            taskArr = taskArr.filter(task => task._id != taskID);
+            taskArr = taskArr.filter(task => task.taskId != taskID);
             handleStatusReport("Task deleted successfully", true);
             if(isTaskContainerEmpty()) {
                 taskContainer.textContent = noTaskPhrase;
@@ -664,10 +664,10 @@
                     .then((json) => {
                         if(json.status) {
                             // handleStatusReport("Task updated successfully", true);
-                            const index = taskArr.findIndex(task => task._id === taskID);
+                            const index = taskArr.findIndex(task => task.taskId === taskID);
                             taskArr[index].content = content;
                             taskArr[index].last_updated = last_updated;
-                            document.getElementById(taskArr[index]._id).title = "Last updated: " + getFormattedLocalTime(last_updated);
+                            document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                         }
                         else {
                             handleStatusReport(json.message, false);
@@ -679,15 +679,15 @@
                     })
                 }
                 else {
-                    const index = taskArr.findIndex(task => task._id === taskID);
+                    const index = taskArr.findIndex(task => task.taskId === taskID);
                     taskArr[index].content = content;
                     taskArr[index].last_updated = last_updated;
-                    document.getElementById(taskArr[index]._id).title = "Last updated: " + getFormattedLocalTime(last_updated);
+                    document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                     
-                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task._id === taskID);
+                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId === taskID);
                     if(indexOfPreviouslyUpdatedTask === -1) {
                         const newUpdatedTask = {
-                            "_id": taskID,
+                            "taskId": taskID,
                             "content": content,
                             "last_updated": last_updated
                         }
@@ -712,7 +712,7 @@
                 // })
                 // .then(() => {
                 //     handleStatusReport("Task updated successfully", true);
-                //     const index = taskArr.findIndex(task => task._id === taskID);
+                //     const index = taskArr.findIndex(task => task.taskId === taskID);
                 //     taskArr[index].date = date;
                 // })
                 // .catch(err => {
@@ -738,12 +738,12 @@
                     .then((json) => {
                         if(json.status) {
                             // handleStatusReport("Task updated successfully", true);
-                            const index = taskArr.findIndex(task => task._id === taskID);
+                            const index = taskArr.findIndex(task => task.taskId === taskID);
                             taskArr[index].important = important;
                             taskArr[index].last_updated = last_updated;
-                            if(document.getElementById(taskArr[index]._id)) {
+                            if(document.getElementById(taskArr[index].taskId)) {
                                 // This was added to account for the element disappearing from the container, in cases such as the important leaving the important filter after being unmarked
-                                document.getElementById(taskArr[index]._id).title = "Last updated: " + getFormattedLocalTime(last_updated);
+                                document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                             }
                         }
                         else {
@@ -756,18 +756,18 @@
                     })
                 }
                 else {
-                    const index = taskArr.findIndex(task => task._id === taskID);
+                    const index = taskArr.findIndex(task => task.taskId === taskID);
                     taskArr[index].important = important;
                     taskArr[index].last_updated = last_updated;
-                    if(document.getElementById(taskArr[index]._id)) {
+                    if(document.getElementById(taskArr[index].taskId)) {
                         // This was added to account for the element disappearing from the container, in cases such as the important leaving the important filter after being unmarked
-                        document.getElementById(taskArr[index]._id).title = "Last updated: " + getFormattedLocalTime(last_updated);
+                        document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                     }
                     
-                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task._id === taskID);
+                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId === taskID);
                     if(indexOfPreviouslyUpdatedTask === -1) {
                         const newUpdatedTask = {
-                            "_id": taskID,
+                            "taskId": taskID,
                             "important": important,
                             "last_updated": last_updated
                         }
@@ -797,12 +797,12 @@
                     .then((json) => {
                         if(json.status) {
                             // handleStatusReport("Task updated successfully", true);
-                            const index = taskArr.findIndex(task => task._id === taskID);
+                            const index = taskArr.findIndex(task => task.taskId === taskID);
                             taskArr[index].completed = completed;
                             taskArr[index].last_updated = last_updated;
-                            if(document.getElementById(taskArr[index]._id)) {
+                            if(document.getElementById(taskArr[index].taskId)) {
                                 // This was added to account for the element disappearing from the container, in cases such as the important leaving the important filter after being unmarked
-                                document.getElementById(taskArr[index]._id).title = "Last updated: " + getFormattedLocalTime(last_updated);
+                                document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                             }
                         }
                         else {
@@ -814,18 +814,18 @@
                     })
                 } else {
                     // handleStatusReport("Task updated successfully", true);
-                    const index = taskArr.findIndex(task => task._id === taskID);
+                    const index = taskArr.findIndex(task => task.taskId === taskID);
                     taskArr[index].completed = completed;
                     taskArr[index].last_updated = last_updated;
-                    if(document.getElementById(taskArr[index]._id)) {
+                    if(document.getElementById(taskArr[index].taskId)) {
                         // This was added to account for the element disappearing from the container, in cases such as the important leaving the important filter after being unmarked
-                        document.getElementById(taskArr[index]._id).title = "Last updated: " + getFormattedLocalTime(last_updated);
+                        document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                     }
                     
-                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task._id === taskID);
+                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId === taskID);
                     if(indexOfPreviouslyUpdatedTask === -1) {
                         const newUpdatedTask = {
-                            "_id": taskID,
+                            "taskId": taskID,
                             "completed": completed,
                             "last_updated": last_updated
                         }
@@ -1170,12 +1170,12 @@
             }
 
             else if(target.classList.contains("delete-completed-tasks-btn")) {
-                const completedTasksIDS = filterTasks(taskArr, 3).map(task => task._id);
+                const completedTasksIDS = filterTasks(taskArr, 3).map(task => task.taskId);
                 deleteTaskGroup(completedTasksIDS);
             }
 
             else if(target.classList.contains("delete-all-tasks-btn")) {
-                const allTasksIDS = taskArr.map(task => task._id);
+                const allTasksIDS = taskArr.map(task => task.taskId);
                 deleteTaskGroup(allTasksIDS);
             }
 
@@ -1388,7 +1388,7 @@
 
         <!-- to be deleted -->
         <div style="position: fixed; bottom: 1rem; right: 1rem; z-index: 10; color: #333333;" id="testing-info">
-            <p style="font-size: .8rem;" id="testing-info__userID"></p>
+            <!-- <p style="font-size: .8rem;" id="testing-info__userID"></p> -->
             <p>1.13.27</p>
         </div>
         <!-- to be deleted -->
