@@ -162,7 +162,7 @@
 
         const distributeDataIntoClient = data => {
             taskArr = data.tasks.slice();
-            userFullName = data.name;
+            userFullName = data.username;
             userFirstName = userFullName.split(" ")[0];
             email = data.email;
             appearance = data.appearance;
@@ -912,7 +912,7 @@
                     method: "PATCH",
                     body: JSON.stringify({
                         // token: getAuthTokenFromCookies(),
-                        name: newName
+                        username: newName
                     }),
                     headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -1389,7 +1389,7 @@
         <!-- to be deleted -->
         <div style="position: fixed; bottom: 1rem; right: 1rem; z-index: 10; color: #333333;" id="testing-info">
             <p style="font-size: .8rem;" id="testing-info__userID"></p>
-            <p>1.12.27</p>
+            <p>1.13.27</p>
         </div>
         <!-- to be deleted -->
     

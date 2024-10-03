@@ -111,7 +111,7 @@
                 fetch("https://task-manager-back-end-7gbe.onrender.com/api/user/register", {
                     method: "POST",
                     body: JSON.stringify({
-                    name: name,
+                    username: name,
                     email: email,
                     password: password
                     }),
