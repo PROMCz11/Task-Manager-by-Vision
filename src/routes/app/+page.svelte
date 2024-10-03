@@ -29,7 +29,7 @@
         let userFirstName = "";
         let email = "";
         let appearance;
-        let auto_delete = 0;
+        let auto_delete = false;
         let isClientOnline = 1;
         let updatedWhileOfflineTasksArray = [];
         let deletedWhileOfflineIDS = [];
@@ -115,7 +115,7 @@
 
                         const idPairsArray = json.data.idPairs;
                         idPairsArray.forEach(pair => {
-                            const fakeTaskIndex = taskArr.findIndex(task => task.taskId === pair.fakeID);
+                            const fakeTaskIndex = taskArr.findIndex(task => task.taskId == pair.fakeID);
                             taskArr[fakeTaskIndex].taskId = pair.realID;
                             if(document.getElementById(pair.fakeID)) {
                                 const taskOnTheDOM = document.getElementById(pair.fakeID);
@@ -664,7 +664,7 @@
                     .then((json) => {
                         if(json.status) {
                             // handleStatusReport("Task updated successfully", true);
-                            const index = taskArr.findIndex(task => task.taskId === taskID);
+                            const index = taskArr.findIndex(task => task.taskId == taskID);
                             taskArr[index].content = content;
                             taskArr[index].last_updated = last_updated;
                             document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
@@ -679,12 +679,12 @@
                     })
                 }
                 else {
-                    const index = taskArr.findIndex(task => task.taskId === taskID);
+                    const index = taskArr.findIndex(task => task.taskId == taskID);
                     taskArr[index].content = content;
                     taskArr[index].last_updated = last_updated;
                     document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                     
-                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId === taskID);
+                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId == taskID);
                     if(indexOfPreviouslyUpdatedTask === -1) {
                         const newUpdatedTask = {
                             "taskId": taskID,
@@ -712,7 +712,7 @@
                 // })
                 // .then(() => {
                 //     handleStatusReport("Task updated successfully", true);
-                //     const index = taskArr.findIndex(task => task.taskId === taskID);
+                //     const index = taskArr.findIndex(task => task.taskId == taskID);
                 //     taskArr[index].date = date;
                 // })
                 // .catch(err => {
@@ -738,7 +738,7 @@
                     .then((json) => {
                         if(json.status) {
                             // handleStatusReport("Task updated successfully", true);
-                            const index = taskArr.findIndex(task => task.taskId === taskID);
+                            const index = taskArr.findIndex(task => task.taskId == taskID);
                             taskArr[index].important = important;
                             taskArr[index].last_updated = last_updated;
                             if(document.getElementById(taskArr[index].taskId)) {
@@ -756,7 +756,7 @@
                     })
                 }
                 else {
-                    const index = taskArr.findIndex(task => task.taskId === taskID);
+                    const index = taskArr.findIndex(task => task.taskId == taskID);
                     taskArr[index].important = important;
                     taskArr[index].last_updated = last_updated;
                     if(document.getElementById(taskArr[index].taskId)) {
@@ -764,7 +764,7 @@
                         document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                     }
                     
-                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId === taskID);
+                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId == taskID);
                     if(indexOfPreviouslyUpdatedTask === -1) {
                         const newUpdatedTask = {
                             "taskId": taskID,
@@ -797,7 +797,7 @@
                     .then((json) => {
                         if(json.status) {
                             // handleStatusReport("Task updated successfully", true);
-                            const index = taskArr.findIndex(task => task.taskId === taskID);
+                            const index = taskArr.findIndex(task => task.taskId == taskID);
                             taskArr[index].completed = completed;
                             taskArr[index].last_updated = last_updated;
                             if(document.getElementById(taskArr[index].taskId)) {
@@ -814,7 +814,7 @@
                     })
                 } else {
                     // handleStatusReport("Task updated successfully", true);
-                    const index = taskArr.findIndex(task => task.taskId === taskID);
+                    const index = taskArr.findIndex(task => task.taskId == taskID);
                     taskArr[index].completed = completed;
                     taskArr[index].last_updated = last_updated;
                     if(document.getElementById(taskArr[index].taskId)) {
@@ -822,7 +822,7 @@
                         document.getElementById(taskArr[index].taskId).title = "Last updated: " + getFormattedLocalTime(last_updated);
                     }
                     
-                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId === taskID);
+                    const indexOfPreviouslyUpdatedTask = updatedWhileOfflineTasksArray.findIndex(task => task.taskId == taskID);
                     if(indexOfPreviouslyUpdatedTask === -1) {
                         const newUpdatedTask = {
                             "taskId": taskID,
@@ -1159,12 +1159,12 @@
 
             else if(target.id === "setting-display-auto-delete") {
                 if(target.checked) {
-                    auto_delete = 1;
+                    auto_delete = true;
                     settingsUpdateAutoDelete();
                 }
 
                 else {
-                    auto_delete = 0;
+                    auto_delete = false;
                     settingsUpdateAutoDelete();
                 }
             }
