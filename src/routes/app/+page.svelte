@@ -80,7 +80,10 @@
 
         const enterOnlineMode = () => {
             enterSyncMode();
-            const addArray = taskArr.filter(task => task.taskId.includes("-fake-id"));
+            const addArray = taskArr.filter(task => typeof task.taskId === "string" && task.taskId.includes("-fake-id")).map(task => {
+                task.taskId = task.taskId.slice(0, 5);
+                return task;
+            });
             addArray.forEach(task => {
                 // delete task.UserId;
                 delete task.__v;
